@@ -25,4 +25,5 @@
             o = Object.getPrototypeOf(o);
         }
     };
+    
 })(window);

@@ -20,12 +20,18 @@
 
 
     <script type="text/javascript">
-    
-    document.addEventListener("DOMContentLoaded", 
-                              function(){
-                                ObjectViz( Object );
-                              }, 
-                              false);
+    (function(){
+        var o = //Object;
+                //[1, true, null, undefined, function(){}, {}];
+                window;
+                //document;
+                //function yo(a, b, c){};
+                //Object.freeze({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                //Object.seal({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                //Object.preventExtensions({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+        
+        document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o ); }, false);
+    })();
     </script>
 
 
