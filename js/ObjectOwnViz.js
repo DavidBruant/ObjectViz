@@ -56,6 +56,8 @@
     
     
     global.ObjectOwnViz = function(o, container){
+        console.log('Drawing new object');
+        
         var canvas = Raphael(container, CANVAS_SIZE, CANVAS_SIZE);
         var flowerCenter;
         
@@ -71,11 +73,20 @@
         var texts = [];
         
         names.forEach(function(propName, i){
-                          var pd = Object.getOwnPropertyDescriptor(o, propName);
                           var x = petalPositions[i].x, y = petalPositions[i].y;
                           var color;
                           var petal = canvas.circle(x, y, UNIT);
                           var text = propName;
+
+                          try{ // Throw errors sometimes on Firefox
+                            var pd = Object.getOwnPropertyDescriptor(o, propName);
+                          }
+                          catch(e){
+                            console.log('Error caught for '+propName/*, e*/);
+                            canvas.text(x, y, text).attr({'font-size': 12});
+                            return; // Not vizualizing the property for now
+                          }
+                          
                           
                           if("value" in pd){ // data descriptor
                               color = pd.value === null ? COLORS['null'] : COLORS[typeof pd.value];

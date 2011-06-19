@@ -29,8 +29,11 @@
                 //Object.freeze({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
                 //Object.seal({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
                 //Object.preventExtensions({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                //NodeList;
+                
+        document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o /*document.querySelectorAll('*')*/ ); }, false);
         
-        document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o ); }, false);
+        document.addEventListener("click", function(e){ ObjectViz( e ); }, false);
     })();
     </script>
 
