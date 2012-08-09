@@ -12,6 +12,16 @@
         border: 1px dashed #AAA;
 
     }
+    
+    header{
+        padding: 0 10%;
+    }
+    
+    header h1{
+        padding: 0;
+        margin: 0;
+        font-size: 1.8em;
+    }
     </style>
 
     <script type="text/javascript" src="raphael.js"> </script>
@@ -42,6 +52,21 @@
   </head>
 
   <body>
+    <header>
+        <h1>ObjectViz</h1>
+        <p>This tool helps vizualize JavaScript objects. The top-left "flower" in
+        a square shows all the own properties of the object. The next flower
+        shows the own properties of its prototype, the next it's prototype's prototype
+        and so on.</p>
+        <p>The first object shown is the global object. If you click, you'll see
+        the click event object. You can visualize any object by typing <code>ObjectViz(yourObject)</code>
+        in your JavaScript console/devtools.</p>
+    </header>
+    
+    <div id="flowers"></div>
+    
+    
+    
   </body>
 </html>
 
