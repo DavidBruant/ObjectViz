@@ -30,4 +30,4 @@
         }
     };
     
-})(this);
+})(this); // modification
