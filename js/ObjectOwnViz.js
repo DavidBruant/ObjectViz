@@ -71,9 +71,8 @@
 
         var names = Object.getOwnPropertyNames(o);
         var petalPositions = petalCenterPositions(names.length);
-        var texts = [];
 
-        names.forEach(function (propName, i) {
+        names.map(function (propName, i) {
             var x = petalPositions[i].x, y = petalPositions[i].y;
             var color;
             var petal = canvas.circle(x, y, UNIT);
@@ -113,11 +112,18 @@
             }
 
             // save texts to display them later on in order texts to appear on top of all petals
-            texts.push({x:x, y:y, text:text});
-        });
+            return {x:x, y:y, text:text};
+        }).forEach(function (e) {
+            var t = canvas.text(e.x, e.y, e.text).attr({'font-size':12});
 
-        texts.forEach(function (e) {
-            canvas.text(e.x, e.y, e.text).attr({'font-size':12});
+            // Fix for Chrome&Opera. A dy attribute is inserted with value y (double y in the end)
+            // will force the behavior in FF too, but whatev's
+            var tChildren = t.node.childNodes;
+            for(var i=0; i<tChildren.length ; i++){
+              t.node.childNodes[i].setAttribute('dy', i*15);
+            }
+
+
         });
 
     };
