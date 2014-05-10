@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    
-    <style> 
-    div.canvas{
-        display: inline;
-    }
+    <head>
+        <meta charset="utf-8">
 
-    div.canvas svg{
-        border: 1px dashed #AAA;
+        <style> 
+            div.canvas{
+                display: inline;
+            }
 
-    }
-    
-    header{
-        padding: 0 10%;
-    }
-    
-    header h1{
-        padding: 0;
-        margin: 0;
-        font-size: 1.8em;
-    }
-    </style>
+            div.canvas svg{
+                border: 1px dashed #AAA;
 
-    <script type="text/javascript" src="raphael.js"> </script>
-    <script type="text/javascript" src="js/ObjectOwnViz.js"> </script>
-    <script type="text/javascript" src="js/ObjectViz.js"> </script>
+            }
 
+            header{
+                padding: 0 10%;
+            }
 
-    <script type="text/javascript">
-    (function(){
-        var o = //Object;
-                //[1, true, null, undefined, function(){}, {}];
-                //window;
-                //document;
-                //function yo(a, b, c){};
-                //Object.freeze({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
-                //Object.seal({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
-                //Object.preventExtensions({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
-                //NodeList;
-                Array;
-                
-        document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o /*document.querySelectorAll('*')*/ ); }, false);
-        
-        document.addEventListener("click", function(e){ ObjectViz( e ); }, false);
-    })();
-    </script>
+            header h1{
+                padding: 0;
+                margin: 0;
+                font-size: 1.8em;
+            }
+        </style>
+
+        <script type="text/javascript" src="raphael.js"> </script>
+        <script type="text/javascript" src="js/ObjectOwnViz.js"> </script>
+        <script type="text/javascript" src="js/ObjectViz.js"> </script>
 
 
-    <title> ObjectOwnViz </title>    
-  </head>
+        <script type="text/javascript">
+            (function(){
+                var o = //Object;
+                    //[1, true, null, undefined, function(){}, {}];
+                    //window;
+                    //document;
+                    //function yo(a, b, c){};
+                    //Object.freeze({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                    //Object.seal({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                    //Object.preventExtensions({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
+                    //NodeList;
+                    Array;
 
-  <body>
-    <header>
-        <h1>ObjectViz</h1>
-        <p>This tool helps vizualize JavaScript objects. The top-left "flower" in
-        a square shows all the own properties of the object. The next flower
-        shows the own properties of its prototype, the next it's prototype's prototype
-        and so on.</p>
-        <p>The first object shown is the global object. If you click, you'll see
-        the click event object. You can visualize any object by typing <code>ObjectViz(yourObject)</code>
-        in your JavaScript console/devtools.</p>
-    </header>
-    
-    <div id="flowers"></div>
-    
-    
-    
-  </body>
+                document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o /*document.querySelectorAll('*')*/ ); }, false);
+
+                document.addEventListener("click", function(e){ ObjectViz( e ); }, false);
+            })();
+        </script>
+
+
+        <title> ObjectOwnViz </title>    
+    </head>
+
+    <body>
+        <header>
+            <h1>ObjectViz</h1>
+            <p>This tool helps vizualize JavaScript objects. The top-left "flower" in
+                a square shows all the own properties of the object. The next flower
+                shows the own properties of its prototype, the next it's prototype's prototype
+                and so on.</p>
+            <p>The first object shown is the global object. If you click, you'll see
+                the click event object. You can visualize any object by typing <code>ObjectViz(yourObject)</code>
+                in your JavaScript console/devtools.</p>
+        </header>
+
+        <main id="flowers"></main>
+
+
+
+    </body>
 </html>
 
