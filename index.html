@@ -3,16 +3,52 @@
     <head>
         <meta charset="utf-8">
 
-        <style> 
-            div.canvas{
-                display: inline;
+        <style data-better-defaults> 
+            *{
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+
+                box-sizing: border-box;
+                border-collapse: collapse;
             }
 
-            div.canvas svg{
-                border: 1px dashed #AAA;
-
+            /* http://lists.whatwg.org/pipermail/whatwg-whatwg.org/2014-May/254198.html */
+            [hidden] { 
+                display: none !important;
             }
 
+
+            html, body{
+                padding: 0;
+                margin: 0;
+            }
+
+            /* For non-documents */
+            ul, ol, menu{
+                list-style: none;
+
+                margin: 0;
+                padding: 0;
+            }
+
+            li{
+                margin: 0;
+                padding: 0;
+            }
+
+            .table-layout{
+                display: table;
+            }
+            .table-layout > *{
+                display: table-row;
+            }
+            .table-layout > * > *{
+                display: table-cell;
+            }
+        </style>
+        
+        <style>
             header{
                 padding: 0 10%;
             }
@@ -22,13 +58,37 @@
                 margin: 0;
                 font-size: 1.8em;
             }
+            
+            .flower{
+                display: inline;
+            }
+
+            .flower svg{
+                border: 1px dashed #AAA;
+            }
+            
+            
+            .flower .center{
+                stroke: none;
+                fill: #CCC; /* want radial with #CCC in center and 70%-#fff*/
+            }
+            
+            .flower .center.non-extensible{
+                stroke: 1px; /* appaently not a valid value? */
+                fill: #CCC;
+            }
+            
+            .petal text{
+                font-size: 12px;
+            }
+
         </style>
 
-        <script type="text/javascript" src="raphael.js"> </script>
-        <script type="text/javascript" src="js/ObjectOwnViz.js"> </script>
-        <script type="text/javascript" src="js/ObjectViz.js"> </script>
+        <script src="lib/tiretbas-natives.js"></script>
 
-
+        <script defer src="lib/react.js"></script>
+        <script defer src="src/ObjectViz.js"></script>
+        
         <script type="text/javascript">
             (function(){
                 var o = //Object;
@@ -40,9 +100,10 @@
                     //Object.seal({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
                     //Object.preventExtensions({'string':'', 'number':1, 'function':function(){}, 'object':{}, 'boolean':!!0, 'null':null, 'undefined':undefined});
                     //NodeList;
+                    //document.querySelectorAll('*');
                     Array;
 
-                document.addEventListener("DOMContentLoaded", function(){ ObjectViz( o /*document.querySelectorAll('*')*/ ); }, false);
+                document._once("DOMContentLoaded", function(){ ObjectViz( o ); });
 
                 document.addEventListener("click", function(e){ ObjectViz( e ); }, false);
             })();
@@ -63,10 +124,8 @@
                 the click event object. You can visualize any object by typing <code>ObjectViz(yourObject)</code>
                 in your JavaScript console/devtools.</p>
         </header>
-
-        <main id="flowers"></main>
-
-
+        
+        <main></main>
 
     </body>
 </html>
