@@ -43,33 +43,43 @@
             
             
             return (
-                React.DOM.g({
-                    className: 'petal',
-                    children: [
-                        React.DOM.circle({
-                            fill: color,
-                            stroke: "value" in pd ? "none" : "black",
-                            'strokeWidth': "value" in pd ? "0" : '1px',
+                    
+                React.DOM.circle({
+                    fill: color,
+                    stroke: "value" in pd ? "none" : "black",
+                    'strokeWidth': "value" in pd ? "0" : '1px',
 
-                            cx: this.props.position.x,
-                            cy: this.props.position.y,
-                            r: UNIT
-                        }),
-                        React.DOM.text({
-                            'textAnchor': 'middle',
-                            x: this.props.position.x,
-                            y: this.props.position.y,
-                            children: text
-                        })
-                    ]
-                    
-                    
-                    //children: React.DOM.text({children: this.props.name})
+                    cx: this.props.position.x,
+                    cy: this.props.position.y,
+                    r: UNIT
                 })
             );
         }
     });
 
+    
+    var PetalText = React.createClass({
+        render: function() {
+            var pd = this.props.propDesc;
+            var text = this.props.name;
+            
+            if ("value" in pd) { // data descriptor
+                if (['number', 'string', 'boolean'].indexOf(typeof pd.value) !== -1)
+                    text += '\n ' + (pd.value === '' ? '(empty string)' : pd.value);
+            }
+            
+            return (
+                    
+                React.DOM.text({
+                    className: 'petal',
+                    'textAnchor': 'middle',
+                    x: this.props.position.x,
+                    y: this.props.position.y,
+                    children: text
+                })
+            );
+        }
+    });
     
     /*
         Flower
@@ -135,6 +145,11 @@
                             })
                         ].concat(names.map(function(name, i){
                             return Petal({
+                                propDesc: Object.getOwnPropertyDescriptor(o, name),
+                                position: petalPositions[i]
+                            })
+                        })).concat(names.map(function(name, i){ // after circles so they appear on top
+                            return PetalText ({
                                 name: name,
                                 propDesc: Object.getOwnPropertyDescriptor(o, name),
                                 position: petalPositions[i]
