@@ -63,21 +63,30 @@
             var pd = this.props.propDesc;
             var text = this.props.name;
             
-            if ("value" in pd) { // data descriptor
-                if (['number', 'string', 'boolean'].indexOf(typeof pd.value) !== -1)
-                    text += '\n ' + (pd.value === '' ? '(empty string)' : pd.value);
-            }
-            
-            return (
-                    
-                React.DOM.text({
-                    className: 'petal',
+            var children = [  
+                React.DOM.tspan({
                     'textAnchor': 'middle',
-                    x: this.props.position.x,
-                    y: this.props.position.y,
                     children: text
                 })
-            );
+            ];
+            
+            if ("value" in pd) { // data descriptor
+                if (['number', 'string', 'boolean'].indexOf(typeof pd.value) !== -1)
+                    children.push(React.DOM.tspan({
+                        className: 'petal',
+                        'textAnchor': 'middle',
+                        x: this.props.position.x,
+                        dy: '1.2em',
+                        children: (pd.value === '' ? '(empty string)' : pd.value)
+                    }))
+            }
+            
+            return React.DOM.text({
+                className: 'petal',
+                children: children,
+                x: this.props.position.x,
+                y: this.props.position.y
+            });
         }
     });
     
