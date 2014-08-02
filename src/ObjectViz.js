@@ -1,3 +1,7 @@
+/**
+ * @jsx React.DOM
+ */
+
 "use strict";
 
 (function (global) {
@@ -24,7 +28,7 @@
             var pd = this.props.propDesc;
             var color = 'white';
             var text = this.props.name;
-            
+
             if ("value" in pd) { // data descriptor
                 color = pd.value === null ? COLORS['null'] : COLORS[typeof pd.value];
 
@@ -40,56 +44,41 @@
                 canvas.path("M" + x + " " + y + "L" + CANVAS_SIZE / 2 + " " + CANVAS_SIZE / 2).attr({stroke:FLOWER_CENTER_COLOR, fill:'none'});
                 canvas.circle(x, y, UNIT / 5).attr({fill:FLOWER_CENTER_COLOR, stroke:'none'});
             }*/
-            
-            
-            return (
-                    
-                React.DOM.circle({
-                    fill: color,
-                    stroke: "value" in pd ? "none" : "black",
-                    'strokeWidth': "value" in pd ? "0" : '1px',
 
-                    cx: this.props.position.x,
-                    cy: this.props.position.y,
-                    r: UNIT
-                })
+
+            return (
+                <circle fill={color} cx={this.props.position.x} cy={this.props.position.y} r={UNIT}
+                        stroke={"value" in pd ? "none" : "black"}
+                        strokeWidth={"value" in pd ? "0" : '1px'} />
             );
         }
     });
 
-    
+
     var PetalText = React.createClass({
         render: function() {
             var pd = this.props.propDesc;
             var text = this.props.name;
-            
-            var children = [  
-                React.DOM.tspan({
-                    'textAnchor': 'middle',
-                    children: text
-                })
-            ];
-            
+
+            var tspans = [ <tspan textAnchor="middle">{text}</tspan> ];
+
             if ("value" in pd) { // data descriptor
                 if (['number', 'string', 'boolean'].indexOf(typeof pd.value) !== -1)
-                    children.push(React.DOM.tspan({
-                        className: 'petal',
-                        'textAnchor': 'middle',
-                        x: this.props.position.x,
-                        dy: '1.2em',
-                        children: (pd.value === '' ? '(empty string)' : pd.value)
-                    }))
+                    tspans.push(
+                        <tspan textAnchor="middle" x={this.props.position.x} dy="1.2em">
+                          {pd.value === '' ? '(empty string)' : pd.value}
+                        </tspan>
+                    )
             }
-            
-            return React.DOM.text({
-                className: 'petal',
-                children: children,
-                x: this.props.position.x,
-                y: this.props.position.y
-            });
+
+            return (
+                <text className='petal' x={this.props.position.x} y={this.props.position.y}>
+                    {tspans}
+                </text>
+            )
         }
     });
-    
+
     /*
         Flower
     */
@@ -133,45 +122,37 @@
 
         render: function() {
             var o = this.props.object;
-            
+
             var names = Object.getOwnPropertyNames(o);
             var petalPositions = petalCenterPositions(names.length);
+
+            var petals = names.map(function(name, i){
+                return <Petal propDesc={Object.getOwnPropertyDescriptor(o, name)}
+                              position={petalPositions[i]} />
+            });
+            
+            var petalTexts = names.map(function(name, i){ // after circles so they appear on top
+                return <PetalText name={name} 
+                                  propDesc={Object.getOwnPropertyDescriptor(o, name)}
+                                  position={petalPositions[i]} />;
+            });
             
             return (
-                React.DOM.div({
-                    className: "flower",
-                    children: React.DOM.svg({
-                        width: FLOWER_CONTAINER_SIZE,
-                        height: FLOWER_CONTAINER_SIZE,
-
-                        children: [
-                            React.DOM.circle({
-                                className: 'center' + (Object.isExtensible(o) ? '' : ' non-extensible'),
-
-                                cx: FLOWER_CONTAINER_SIZE / 2,
-                                cy: FLOWER_CONTAINER_SIZE / 2,
-                                r: (FLOWER_CENTER_FACTOR - 0.1) * UNIT
-                            })
-                        ].concat(names.map(function(name, i){
-                            return Petal({
-                                propDesc: Object.getOwnPropertyDescriptor(o, name),
-                                position: petalPositions[i]
-                            })
-                        })).concat(names.map(function(name, i){ // after circles so they appear on top
-                            return PetalText ({
-                                name: name,
-                                propDesc: Object.getOwnPropertyDescriptor(o, name),
-                                position: petalPositions[i]
-                            })
-                        }))
-
-                    })
-                })
+                <div className="flower">
+                    <svg width={FLOWER_CONTAINER_SIZE} height={FLOWER_CONTAINER_SIZE}>
+                        <circle className={'center' + (Object.isExtensible(o) ? '' : ' non-extensible')}
+                                cx={FLOWER_CONTAINER_SIZE / 2}
+                                cy={FLOWER_CONTAINER_SIZE / 2}
+                                r={(FLOWER_CENTER_FACTOR - 0.1) * UNIT} />
+                        {petals}
+                        {petalTexts}
+                    </svg>
+                </div>
             );
         }
     });
 
-    
+
     /*
         Bouquet
     */
@@ -189,12 +170,11 @@
             console.log('prototypeChain', prototypeChain);
 
             return (
-                React.DOM.div({
-                    className: "bouquet",
-                    children: prototypeChain.map(function(o){
-                        return Flower({object: o});
+                <div className="bouquet">{
+                    prototypeChain.map(function(o){
+                        return <Flower object={o} />; 
                     })
-                })
+                }</div>
             );
         }
     });
@@ -206,7 +186,7 @@
             throw new TypeError("What you want to visualize is not an object or a function. It's a "+ typeof o);
 
         React.renderComponent(
-            Bouquet({object: o}),
+            <Bouquet object={o} />,
             document.body.querySelector('main')
         );
 

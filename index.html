@@ -87,10 +87,11 @@
         <script src="lib/tiretbas-natives.js"></script>
 
         <script defer src="lib/react.js"></script>
-        <script defer src="src/ObjectViz.js"></script>
+        <script defer src="lib/JSXTransformer.js"></script>
+        <script defer type="text/jsx" src="src/ObjectViz.js"></script>
         
         <script type="text/javascript">
-            (function(){
+            setTimeout(function(){
                 var o = //Object;
                     //[1, true, null, undefined, function(){}, {}];
                     //window;
@@ -103,10 +104,12 @@
                     //document.querySelectorAll('*');
                     Array;
 
-                document._once("DOMContentLoaded", function(){ ObjectViz( o ); });
+                //document._once("DOMContentLoaded", function(){  });
 
+                ObjectViz( o );
+                
                 document.addEventListener("click", function(e){ ObjectViz( e ); }, false);
-            })();
+            }, 1000);
         </script>
 
 
